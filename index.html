@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Monster Slayer</title>
+    <link href="https://fonts.googleapis.com/css?family=Aleo:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/rpg-awesome.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="panel game">
+            <div class="score">
+                <img src="img/player.png" alt="Player Image" class="avatar">
+                <h1><i class="ra ra-knight-helmet"></i> Player</h1>
+                <div class="life-bar">
+                    <div class="life" :class="{danger: playerHP < 20}" :style="{width: playerHP + '%'}"></div>
+                </div>
+                <div class="hp">{{ playerHP }}%</div>
+            </div>
+            <div class="score">
+                <img src="img/monster.png" alt="Monster Image" class="avatar">
+                <h1><i class="ra ra-monster-skull"></i> Monster</h1>
+                <div class="life-bar">
+                    <div class="life" :class="{danger: monsterHP < 20}" :style="{width: monsterHP + '%'}"></div>
+                </div>
+                <div class="hp">{{ monsterHP }}%</div>
+            </div>
+        </div>
+        <div class="panel result" v-if="hasResult">
+            <div class="win" v-if="monsterHP === 0">YOU WIN!</div>
+            <div class="lose" v-else>YOU LOSE!</div>
+        </div>
+        <div class="panel menu">
+            <template v-if="running">
+                <button class="btn attack" @click="attack(false)">
+                    <i class="ra ra-sword"></i> Attack
+                </button>
+                <button class="btn special-attack" @click="attack(true)">
+                    <i class="ra ra-spinning-sword"></i> Special Attack
+                </button>
+                <button class="btn heal" @click="healAndDamage">
+                    <i class="ra ra-health"></i> Heal
+                </button>
+                <button class="btn surrender" @click="running = false">
+                    <i class="ra ra-castle-flag"></i> Surrender
+                </button>
+            </template>
+            <button class="btn new-game" @click="startGame" v-else>
+                <i class="ra ra-gamepad-cross"></i> Start Game
+            </button>
+        </div>
+        <div class="panel logs" v-if="logs.length">
+            <ul>
+                <li class="log" v-for="log in logs" :class="log.cls">{{ log.text }}</li>
+            </ul>
+        </div>
+        <footer class="footer">
+            <h4>Developed by Daniel Ferreira - VueJS COD3R Course</h4>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
